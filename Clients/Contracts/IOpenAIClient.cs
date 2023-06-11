@@ -1,4 +1,4 @@
-using PPI.Models.DTOS;
+using PPI.Models.Dtos;
 
 namespace PPI.Clients.Contracts;
 

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace PPI.Models.DTOS;
+namespace PPI.Models.Dtos;
 
 public class ChatResponseDto
 {
