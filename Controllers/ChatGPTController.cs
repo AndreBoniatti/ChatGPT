@@ -4,6 +4,7 @@ using PPI.Clients.Contracts;
 using PPI.Data.Repositories.Contracts;
 using PPI.Models;
 using PPI.Models.Dtos;
+using PPI.Models.Enums;
 
 namespace PPI.Controllers
 {
@@ -69,10 +70,15 @@ namespace PPI.Controllers
         public IActionResult GetQuestions(
             [FromServices] IQuestionRepository questionRepository,
             [FromQuery] int pageIndex,
-            [FromQuery] int pageSize
+            [FromQuery] int pageSize,
+            [FromQuery] string? filter,
+            [FromQuery] ESubject? subject,
+            [FromQuery] EDifficulty? difficulty
         )
         {
-            var questions = questionRepository.GetPagedQuestions(pageIndex, pageSize);
+            var questions = questionRepository
+                .GetPagedQuestions(pageIndex, pageSize, filter, subject, difficulty);
+
             return Ok(questions);
         }
 

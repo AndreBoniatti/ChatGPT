@@ -3,6 +3,7 @@ using PPI.Data.Context;
 using PPI.Data.Repositories.Contracts;
 using PPI.Models;
 using PPI.Models.Dtos;
+using PPI.Models.Enums;
 
 namespace PPI.Data.Repositories;
 
@@ -12,7 +13,7 @@ public class QuestionRepository : RepositoryBase<Question>, IQuestionRepository
     {
     }
 
-    public PaginationDto<DisplayQuestionDto> GetPagedQuestions(int pageIndex = 0, int pageSize = 10)
+    public PaginationDto<DisplayQuestionDto> GetPagedQuestions(int pageIndex, int pageSize, string? filter, ESubject? subject, EDifficulty? difficulty)
     {
         var query = _dataContext.Questions
             .AsNoTracking()
@@ -32,6 +33,15 @@ public class QuestionRepository : RepositoryBase<Question>, IQuestionRepository
                 }).ToList()
             })
             .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(filter))
+            query = query.Where(x => x.Content.ToLower().Contains(filter.ToLower()));
+
+        if (subject != null)
+            query = query.Where(x => x.Subject == subject);
+
+        if (difficulty != null)
+            query = query.Where(x => x.Difficulty == difficulty);
 
         var pagedQuery = new PaginationDto<DisplayQuestionDto>()
         {
