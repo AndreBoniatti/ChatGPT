@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using PPI.Models.Enums;
 
 namespace PPI.Models;
@@ -12,6 +13,7 @@ public class Question
 
         Id = Guid.NewGuid();
         CreatedAt = DateTime.UtcNow;
+        Answers = new Collection<Answer>();
     }
 
     public Guid Id { get; private set; }
@@ -21,5 +23,15 @@ public class Question
     public DateTime CreatedAt { get; private set; }
     public DateTime? DeletedAt { get; private set; }
 
-    public virtual ICollection<Answer>? Answers { get; set; }
+    public void AddAnswer(Answer answer)
+    {
+        Answers?.Add(answer);
+    }
+
+    public void Delete()
+    {
+        DeletedAt = DateTime.UtcNow;
+    }
+
+    public virtual ICollection<Answer>? Answers { get; private set; }
 }

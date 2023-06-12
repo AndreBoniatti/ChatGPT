@@ -5,7 +5,22 @@ using PPI.Data.Context.Extensions;
 using PPI.Data.Repositories;
 using PPI.Data.Repositories.Contracts;
 
+var MyAllowSpecificOrigins = "CorsPolicy";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins(
+                "http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+        });
+});
 
 builder.Services.AddDataContext(builder.Configuration.GetConnectionString("Database") ?? "");
 
@@ -29,6 +44,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 

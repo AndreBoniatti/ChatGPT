@@ -2,14 +2,13 @@ namespace PPI.Models;
 
 public class Answer
 {
-    // public Answer(string content, bool correct, Guid questionId)
-    // {
-    //     Content = content;
-    //     Correct = correct;
-    //     QuestionId = questionId;
+    public Answer(string content, bool correct)
+    {
+        Content = content;
+        Correct = correct;
 
-    //     Id = Guid.NewGuid();
-    // }
+        Id = Guid.NewGuid();
+    }
 
     public Guid Id { get; private set; }
     public string Content { get; private set; } = string.Empty;
